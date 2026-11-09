@@ -1,0 +1,13 @@
+# Large raw data file
+data/raw/FairHousing.dta
+
+# Presentation videos
+*.mp4
+
+# RStudio
+.Rproj.user/
+.Rhistory
+.RData
+
+# Quarto
+.quarto/
