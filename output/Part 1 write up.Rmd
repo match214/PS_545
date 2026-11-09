@@ -1,0 +1,49 @@
+---
+title: 'Part 1: Replication'
+author: "Matt Channing"
+date: "2026-10-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Article Summary
+
+The paper asks several questions about the relationship between zoning and segregation. For this assignment’s reproduction, the most important research question is if a city’s land-use related to its level of segregation. Specifically, the author wanted to know if cities with a Fair Housing Act Violation injunction became less white in 2011 compared to their share of White residents before the suit. This creates a causal claim that land-use policies contribute to racial segregation.
+
+To support the causal claim the study makes, it needs a couple of key assumptions to hold. One assumption necessary to support this causal claim would be the timing of the lawsuits in that they didn’t occur when cities were already becoming less White. A second is that the change in the White share itself did not lead to Fair Housing Act violation lawsuits. The concern with this is that the estimated effect of lawsuits could reflect demographic change causing litigation rather than litigation causing demographic change. The Fair Housing Act is Title VIII of the Civil Rights Act of 1968 and is meant to reduce discrimination within housing financing, renting, and selling for protected classes. Both race and color are protected classes within the legislation, making de jure and de facto segregation illegal. Plaintiffs would need to show that city failed to make reasonable accommodations in policies practices that would afford people in protected classes an equal opportunity to live within the city. If they succeeded, the city needed change its land-use policy to remedy the discrimination.
+
+This question about the relationship between a city’s racial diversity and matters for an important reason: it posits that a city’s zoning code, no matter how racially neutral its design, could lead to racial segregation. The article reminds readers that Residential location is strongly correlated with major quality of life outcomes such as life expectancy, income, and general health. Therefore, land-use decisions which limit the capacity of people to live in their neighborhood of choice could result in downstream effects for them.
+
+The headline finding is that the presence of Fair Housing Act lawsuits relates to a about a five percent reduction in the city's percentage of whiteness. This means that a land-use decision can lead to more diversity, although it is far from the only factor. Indeed, the percent of homeowners and wealthy individuals, residents in the 90th percentile of income are associated with Whiter shares of population while the city’s size, its home value, and its share of vacant housing are associated with lower shares.
+
+## Discrepancy paragraph
+
+I had only a few discrepancies between the original study’s results and my reproduction. These resulted largely from the nature of running the study’s tests within R rather than Stata. Because of missing values (NA) in the number of cities, I had fewer of them which also impacted the N for the OLS, which are based on city-year. I also could not reproduce the R2 overall that the study provides from the Stata g because of the two fixed effects included in my reproduction of model 2. R Studio provides the adjusted R2, which absorbs the impact the fixed effects (city and year) have on determining variation.
+
+## Pipeline Note
+
+The author made materials available on the Harvard Dataverse. The archive contains the most of the original data and Stata replication files used in the study. A master document listed the Stata codes the studied used in its data analysis. However, the data themselves were partially transformed, specifically, the variables for population and home value. The population data were already logged, and the home value was already measured in hundreds of thousands. I had to reconstruct the code in R Studio and the reported coefficient and standard error for home value were rescaled by multiplying the estimated coefficient and standard error by 100,000.
+
+## Side-by-side Comparison
+
+Table 2. Effect of Land Use Change on City Whiteness, 1968-2011
+
+| Variable                  | Published Beta | Replicated Beta |
+|---------------------------|----------------|-----------------|
+| Fair Housing act lawsuit  | -.053          | -.053           |
+| \% Homeowners             | 0.248          | 0.248           |
+| \% Wealthy                | 0.316          | 0.316           |
+| City population (logged)  | -0.038         | -0.038          |
+| Average home value (100k) | -0.011         | -0.011          |
+| \% Vacant                 | -0.064         | -0.064          |
+| Constant                  | 1.295          | N/A             |
+| N                         | 176250         | 176245          |
+| Number of Cities          | 4559           | 4553            |
+| R2 (overall)              | 0.264          | N/A             |
+
+: Table 2 Reproduction Comparison
+
+\|

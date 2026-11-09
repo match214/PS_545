@@ -1,0 +1,159 @@
+---
+title: "Dataset Presentation"
+author: "Matt Channing"
+date: "2026-11-08"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(haven)
+library(here)
+
+# Load data
+city_change <- read_csv(
+  here("data", "clean", "city_change.csv")
+)
+
+# Visualize the lawsuit data
+histogram_year <- ggplot(city_change) +
+  aes(x = firstyr) +
+  geom_histogram(binwidth = 2) +
+  labs(
+    title = "Fist Year of A Fair Housing Lawsuit by City",
+    x = "Year of Lawsuit",
+    y = "Number of Cities"
+  )
+
+# visualize the white share data
+histogram_white <- ggplot(city_change) +
+  aes(x = change_white) +
+  geom_histogram(binwidth = .025 )+
+  labs(
+    title = "Percent Change in a City's Population that is Non-Hispanic White",
+    x = "Percent",
+    y = "Number of Cities"
+  )
+
+# Descriptive statistics
+summary <- summary(city_change |>
+                     select(
+                       firstyr,
+                       white_initial,
+                       white_2010,
+                       change_white
+                     ), na.rm = TRUE)
+range <- max(city_change, na.rm = TRUE) - min(city_change, na.rm = TRUE)
+mean(city_change$change_white, na.rm = TRUE)
+sdy<- sd(city_change$firstyr, na.rm = TRUE)
+sdw1<- sd(city_change$white_initial, na.rm = TRUE)
+sdw2 <- sd(city_change$white_2010, na.rm = TRUE)
+sdw3 <- sd(city_change$change_white, na.rm = TRUE)
+mediany <- median(city_change$firstyr, na.rm = TRUE)
+medianw1<- median(city_change$white_initial, na.rm = TRUE)
+medianw2 <- median(city_change$white_2010, na.rm = TRUE)
+medianw3 <- median(city_change$change_white, na.rm = TRUE)
+```
+
+## Presentation Overview
+
+This presentation has three components to it
+
+- What the dataset is
+- A paper that used the data set
+- Research Extensions of the Paper's dataset
+
+## The Dataset
+
+- This dataset motivated me because it contributes directly to my emerging research agenda on the work of regional intergovernmental organizations (RIGOs)
+- My emerging conception of the function of these RIGOS is in their capacity to address externalities and spill overs produced by city land-use policies
+- In this article, Trounstine examines how land use policies affect changes in racial demographics over time
+
+## The Codebook
+
+- The code book within this study is more accessible than most, as Trounstine provided the files on the Harvard Dataverse
+- Her study posts documentation of the analyses run to produce the tables as well as the replication files
+- However, some analytical choices are readily identifiable from the codebook alone and transporting it to R created some consistency problems in replication.
+  - For example, it was not clear what the municipality identifier was.
+
+## The Variables
+
+- Fair Housing Act Injunction
+  - A binary variable of whether a city had a Fair housing lawsuit
+  - A secondary variable of the year of a city's first Fair housing lawsuit
+  - This variable captures an event, a Fair Housing Lawsuit
+  - The variable was hand-coded from a search of Fair Housing Documents
+- Demographic data for all incorporated cities in metropolitan areas from 1968 to 2011
+  - This is city year data that captures an attribute
+  - The data come from the Decennial census
+  - This variable is meant to capture the share of the city population that is white
+
+## Descriptive Statistics
+
+- First of onset of FHA lawsuit
+  - Some multimodality,
+  - A small peak in the early 1970s, and late 80s
+  - Larger peaks in the mid-90s and 2000 to 2010
+  - Median year of 1990
+- White Share
+  - Initial white share median 71.6%
+  - White share in 2010 62.4%
+  - Change in white share -5.8%
+  - The data are highly left skewed, with large negative values and most values hovering around -5%
+
+## Distribution of First Year of a Fair Housing Lawsuit
+
+```{r}
+histogram_year
+```
+
+## Distribution of Change in White Share of City Population
+
+```{r}
+#| warning: false
+histogram_white
+```
+
+## Descriptive Statistics for the Main Variables
+
+Summary:
+
+```{r}
+summary
+```
+
+## Median for the Main Variables
+
+Median of the datasets:
+
+```{r}
+data.frame(
+  Variable = c(
+    "First Year of FHA Lawsuit",
+    "White Share at First Lawsuit",
+    "White Share in 2010",
+    "Change in White Share"
+  ),
+  `Median of the Data` = round(c(mediany, medianw1, medianw2, medianw3),3)
+)
+```
+
+## The Paper
+
+- The paper using this data set is Jessica Trounstine's "The Geography of Inequality: How Land Use Regulation Produces Segregation"
+- This paper was motivated by the research linking residential zoning and segregation.
+- The author used the onset of Fair Housing Lawsuits a natural experiment to test the relationship
+- IV: Whether or not a city has an FHA lawsuit and the year
+- DV: share of the white population in 2010
+- The research question asks what the relationship is between the a city's strictness of land use and level of segregation.
+- The paper finds about a five percent reduction in the city's percentage of whiteness, relative to cities thad did not experience an FHA lawsuit
+
+## Extension
+
+- How did metropolitan white share change as a result of changes in local land use resulting from FHA lawsuits?
+- Do nonwhite property owners support stringent land use?
+  - It appears that the research paper omits homeownership land-use preferences by race.
+  - A major component of the argument of the paper is that homeowners seek to defend against reductions in property value by keeping housing scarce.
+- I would like additional literature on how other planning entities mediate the changes in the share of white population
+  - states, through direct preemption, and RIGOs through services, normative framing, and agenda setting may influence zoning patterns
