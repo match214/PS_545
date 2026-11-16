@@ -95,17 +95,43 @@ model_dag <- ggdag(trounstine_dag) +
 
 ## Quarto
 
-The theory section discusses factors such as homeownership, whiteness, and property-value concerns as causes of restrictive land-use regulation. Because these variables serve primarily to explain the treatment rather than the treatment-outcome relationship itself, they were omitted from the final DAG in order to highlight the core causal pathway. Although whiter communities help generate restrictive land-use policies, the theory does not posit a direct causal path from community whiteness to metropolitan segregation independent of land-use regulation. Therefore, whiter communities are treated as antecedent causes of the treatment rather than confounders.
+The theory section discusses factors such as homeownership, whiteness, and property-value concerns as causes of restrictive land-use regulation. Because these variables serve primarily to explain the treatment rather than the treatment-outcome relationship itself, they were omitted from the final DAG in order to highlight the core causal pathway. Although whiter communities help generate restrictive land-use policies, the theory does not posit a direct causal path from community whiteness to metropolitan segregation independent of land-use regulation.
+
+Further, the theory section does not directly introduce a singular housing access concept. I introduce housing access as a theoretical mechanism linking restrictive land-use regulation to municipal racial composition. The paper argues that restrictive regulations increase housing costs and limit opportunities for certain groups to enter communities. Reduced housing access is therefore a conceptual summary of this process rather than a directly observed variable.
+
+The DAG itself focuses on the theoretical argument that posits a link between restrictive land use practices and metropolitan segregation.
 
 ```{r}
 theory_dag
 ```
 
+Table 1. Theoretical DAG
+
+| Node | Variable                     | Role      |
+|------|------------------------------|-----------|
+| A    | Restrictive Land Use         | Treatment |
+| B    | Reduced Housing Access       | Mechanism |
+| C    | Higher Municipal White Share | Mediator  |
+| D    | Metropolitan Segregation     | Outcome   |
+
+
 ## Align it to the Specification
 
 The controls in model 2 are included to block potential back-door paths between the treatment (Fair Housing Act litigation) and the outcome (municipal racial composition). The author argues that homeownership, wealth, population size, home values, and vacancy rates may influence both the probability of litigation and the racial makeup of a city. Under this interpretation, these variables function as confounders. Although home value and vacancy could theoretically be consequences of land-use policy, the specification treats them as pre-treatment housing-market characteristics rather than mediators.
 
-The author seeks to measure the effect of FHA litigation on municipal White share for cities. While my graph identifies it as the outcome variable for the empirical test, the author's broader theoretical claim concerns metropolitan segregation. Because metropolitan segregation is not directly measured, the paper identifies the effect of FHA litigation on municipal racial composition, not the effect of restrictive land use on metropolitan segregation
+The author seeks to measure the effect of FHA litigation on municipal White share for cities. While my graph identifies it as the outcome variable for the empirical test, the author's broader theoretical claim concerns metropolitan segregation. Because metropolitan segregation is not directly measured, the paper identifies the effect of FHA litigation on municipal racial composition, not the effect of restrictive land use on metropolitan segregation.
+
+Table 2. Model DAG
+
+| Node | Variable              | Role       |
+|------------------------------|------------|
+| A    | \% Homeowners         | Confounder |
+| B    | \% Wealthy            | Confounder |
+| C    | City population       | Confounder |
+| D    | Average home value    | Confounder |
+| E    | \% Vacant             | Confounder |
+| F    | FHA Lawsuit           | Treatment  |
+| G    | Municipal White Share | Outcome    |
 
 ## What is missing and probe it
 
@@ -113,9 +139,12 @@ The article's claim rests on the assumption that municipal White population shar
 
 To re-specify the model to include these proxies as mediators means removing them as controls. The proposed effect of this would be to increase the effect of FHA litigation so that it moves farther from 0 as it will now capture some of the effects of the removed controls. Removing the Housing Price and Percent Vacant variables as controls causes the estimated effect of FHA litigation to become slightly larger by .0009, (from -0.0527 to -0.0536). This suggests that these variables may absorb a small portion of the treatment effect upon the outcome, municipal racial composition.
 
+
+
+
 ## Side-by-side Comparison
 
-Table 2. Effect of Land Use Change on City Whiteness, 1968-2011
+Table 3. Re-Specification Comparison
 
 | Variable                  | Model 2 Beta | Respecified Beta |
 |---------------------------|--------------|------------------|
@@ -129,8 +158,6 @@ Table 2. Effect of Land Use Change on City Whiteness, 1968-2011
 | N                         | 176250       | 182,259          |
 | Number of Cities          | 4559         | 4556             |
 | R2 (overall)              | 0.264        | N/A              |
-
-: Table 2 Re-Specification Comparison
 
 ## State the authors’ reply
 
