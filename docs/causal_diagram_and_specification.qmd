@@ -121,6 +121,10 @@ The controls in model 2 are included to block potential back-door paths between 
 
 The author seeks to measure the effect of FHA litigation on municipal White share for cities. While my graph identifies it as the outcome variable for the empirical test, the author's broader theoretical claim concerns metropolitan segregation. Because metropolitan segregation is not directly measured, the paper identifies the effect of FHA litigation on municipal racial composition, not the effect of restrictive land use on metropolitan segregation.
 
+```{r}
+model_dag
+```
+
 Table 2. Model DAG
 
 | Node | Variable              | Role       |
@@ -138,8 +142,6 @@ Table 2. Model DAG
 The article's claim rests on the assumption that municipal White population share serves as an observable manifestation of underlying changes in housing access. As such, Trounstine does not provide a direct measurement of housing access in the paper. Yet, there are two variables within the model which could act as proxies for housing access: Housing Prices and Vacancy Rate. The proxies capture some dimensions of housing access but miss affordability constraints, permitting barriers, and exclusionary zoning rules.
 
 To re-specify the model to include these proxies as mediators means removing them as controls. The proposed effect of this would be to increase the effect of FHA litigation so that it moves farther from 0 as it will now capture some of the effects of the removed controls. Removing the Housing Price and Percent Vacant variables as controls causes the estimated effect of FHA litigation to become slightly larger by .0009, (from -0.0527 to -0.0536). This suggests that these variables may absorb a small portion of the treatment effect upon the outcome, municipal racial composition.
-
-
 
 
 ## Side-by-side Comparison
